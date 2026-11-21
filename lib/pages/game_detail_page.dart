@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../config/app_keys.dart';
 import '../models/promo_game.dart';
@@ -14,6 +15,23 @@ class GameDetailPage extends StatelessWidget {
   const GameDetailPage({super.key, required this.idPromo});
 
   final int idPromo;
+
+  Future<void> _bagikan(PromoGame promo) async {
+    final teks = '${promo.namaGame} — ${promo.labelDiskon}\n'
+        '${promo.platform} · ${promo.formatHargaDiskon} '
+        '(dari ${promo.formatHargaAwal})\n'
+        'Berlaku sampai ${promo.formatBatasPromo}.\n'
+        'Lihat promonya: ${promo.storeUrl}';
+    try {
+      await SharePlus.instance.share(
+        ShareParams(title: 'Promo ${promo.namaGame}', text: teks),
+      );
+    } catch (_) {
+      scaffoldMessengerKey.currentState?.showSnackBar(
+        const SnackBar(content: Text('Gagal membuka menu bagikan')),
+      );
+    }
+  }
 
   Future<void> _ubah(BuildContext context, PromoGame promo) async {
     await Navigator.push(
@@ -117,6 +135,7 @@ class GameDetailPage extends StatelessWidget {
                 imageUrl: promo.gambarGame,
                 genre: promo.genre,
                 batasPromo: promo.formatBatasPromo,
+                onShare: () => _bagikan(promo),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
@@ -279,7 +298,15 @@ class GameDetailPage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BottomActionBar(platform: promo.platform),
+      bottomNavigationBar: BottomActionBar(
+        platform: promo.platform,
+        storeUrl: promo.storeUrl,
+        onWishlist: () {
+          scaffoldMessengerKey.currentState?.showSnackBar(
+            SnackBar(content: Text('${promo.namaGame} ditambahkan ke wishlist')),
+          );
+        },
+      ),
     );
   }
 }

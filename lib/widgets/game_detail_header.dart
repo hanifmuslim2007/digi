@@ -6,11 +6,13 @@ class GameDetailHeader extends StatelessWidget {
     required this.imageUrl,
     required this.genre,
     required this.batasPromo,
+    required this.onShare,
   });
 
   final String imageUrl;
   final String genre;
   final String batasPromo;
+  final VoidCallback onShare;
 
   @override
   Widget build(BuildContext context) {
@@ -70,13 +72,15 @@ class GameDetailHeader extends StatelessWidget {
                     letterSpacing: 2,
                   ),
                 ),
-                Container(
-                  width: 38,
-                  height: 38,
-                  decoration: const ShapeDecoration(
-                    color: Color(0x990C1017),
-                    shape: OvalBorder(),
+                IconButton(
+                  onPressed: onShare,
+                  tooltip: 'Bagikan promo',
+                  style: IconButton.styleFrom(
+                    backgroundColor: const Color(0x990C1017),
+                    foregroundColor: Colors.white,
+                    fixedSize: const Size(38, 38),
                   ),
+                  icon: const Icon(Icons.share_outlined, size: 18),
                 ),
               ],
             ),

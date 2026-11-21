@@ -77,6 +77,24 @@ class PromoGame {
   String get formatHargaDiskon => _rupiah.format(hargaDiskon);
   String get formatBatasPromo => _tanggalTampil.format(batasPromo);
 
+  String get storeUrl {
+    final kata = Uri.encodeQueryComponent(namaGame);
+    final nama = platform.toLowerCase();
+    if (nama.contains('epic')) {
+      return 'https://store.epicgames.com/en-US/browse?q=$kata';
+    }
+    if (nama.contains('playstation') || nama.contains('ps5')) {
+      return 'https://store.playstation.com/en-us/search/$kata';
+    }
+    if (nama.contains('xbox')) {
+      return 'https://www.xbox.com/en-US/search?q=$kata';
+    }
+    if (nama.contains('nintendo')) {
+      return 'https://www.nintendo.com/us/search/#q=$kata';
+    }
+    return 'https://store.steampowered.com/search/?term=$kata';
+  }
+
   bool get isAktif => statusPromo == 'aktif';
 
   bool get isKedaluwarsa {
