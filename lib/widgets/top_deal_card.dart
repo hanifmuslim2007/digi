@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../models/promo_game.dart';
+
 class TopDealCard extends StatelessWidget {
-  const TopDealCard({super.key});
+  const TopDealCard({super.key, required this.promo});
+
+  final PromoGame promo;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +18,7 @@ class TopDealCard extends StatelessWidget {
           fit: StackFit.expand,
           children: [
             Image.network(
-              'https://cdn.akamai.steamstatic.com/steam/apps/990080/header.jpg',
+              promo.gambarGame,
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) => const ColoredBox(
                 color: Color(0xFF202936),
@@ -75,9 +79,9 @@ class TopDealCard extends StatelessWidget {
                           color: const Color(0xFFBBF76A),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: const Text(
-                          '−50%',
-                          style: TextStyle(
+                        child: Text(
+                          promo.labelDiskon,
+                          style: const TextStyle(
                             color: Color(0xFF13200D),
                             fontSize: 14,
                             fontWeight: FontWeight.w800,
@@ -89,9 +93,9 @@ class TopDealCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Hogwarts Legacy',
-                        style: TextStyle(
+                      Text(
+                        promo.namaGame,
+                        style: const TextStyle(
                           color: Color(0xFFF6F7FB),
                           fontSize: 26,
                           fontWeight: FontWeight.w400,
@@ -102,10 +106,10 @@ class TopDealCard extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Flexible(
+                          Flexible(
                             child: Text(
-                              'Steam · PC',
-                              style: TextStyle(
+                              promo.platform,
+                              style: const TextStyle(
                                 color: Color(0xFF97A3B5),
                                 fontSize: 11,
                               ),
@@ -116,22 +120,22 @@ class TopDealCard extends StatelessWidget {
                             child: FittedBox(
                               fit: BoxFit.scaleDown,
                               alignment: Alignment.centerRight,
-                              child: const Row(
+                              child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.baseline,
                                 textBaseline: TextBaseline.alphabetic,
                                 children: [
                                   Text(
-                                    '\$59.99',
-                                    style: TextStyle(
+                                    promo.formatHargaAwal,
+                                    style: const TextStyle(
                                       color: Color(0xFF68768A),
                                       fontSize: 15,
                                       decoration: TextDecoration.lineThrough,
                                     ),
                                   ),
-                                  SizedBox(width: 8),
+                                  const SizedBox(width: 8),
                                   Text(
-                                    '\$29.99',
-                                    style: TextStyle(
+                                    promo.formatHargaDiskon,
+                                    style: const TextStyle(
                                       color: Color(0xFFBBF76A),
                                       fontSize: 25,
                                       fontWeight: FontWeight.w800,

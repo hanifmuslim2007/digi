@@ -1,13 +1,28 @@
 import 'package:flutter/material.dart';
 
-class PriceHistoryChart extends StatelessWidget {
-  const PriceHistoryChart({super.key});
+import '../models/promo_game.dart';
 
-  static const _axisLabels = ['\$59.99', '\$44.99', '\$29.99'];
+class PriceHistoryChart extends StatelessWidget {
+  const PriceHistoryChart({
+    super.key,
+    required this.hargaAwal,
+    required this.hargaDiskon,
+  });
+
+  final double hargaAwal;
+  final double hargaDiskon;
+
   static const _months = ['JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV'];
 
   @override
   Widget build(BuildContext context) {
+    final tengah = (hargaAwal + hargaDiskon) / 2;
+    final labels = [
+      PromoGame.formatRupiah(hargaAwal),
+      PromoGame.formatRupiah(tengah),
+      PromoGame.formatRupiah(hargaDiskon),
+    ];
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -41,7 +56,7 @@ class PriceHistoryChart extends StatelessWidget {
           height: 146,
           child: Stack(
             children: [
-              for (var index = 0; index < _axisLabels.length; index++)
+              for (var index = 0; index < labels.length; index++)
                 Positioned(
                   top: 8 + (index * 43),
                   left: 0,
@@ -49,9 +64,9 @@ class PriceHistoryChart extends StatelessWidget {
                   child: Row(
                     children: [
                       SizedBox(
-                        width: 42,
+                        width: 72,
                         child: Text(
-                          _axisLabels[index],
+                          labels[index],
                           style: const TextStyle(
                             color: Color(0xFF68768A),
                             fontSize: 9,
@@ -71,24 +86,24 @@ class PriceHistoryChart extends StatelessWidget {
                 child: Container(
                   width: 9,
                   height: 9,
-                  decoration: const ShapeDecoration(
-                    color: Color(0xFFBBF76A),
+                  decoration: ShapeDecoration(
+                    color: const Color(0xFFBBF76A),
                     shape: OvalBorder(
-                      side: BorderSide(width: 2, color: Color(0xFF0C1017)),
+                      side: const BorderSide(width: 2, color: Color(0xFF0C1017)),
                     ),
                   ),
                 ),
               ),
-              const Positioned(
+              Positioned(
                 top: 107,
                 right: 0,
                 child: Text(
-                  'Historical Low · \$29.99',
-                  style: TextStyle(color: Color(0xFFBBF76A), fontSize: 10),
+                  'Harga terendah · ${PromoGame.formatRupiah(hargaDiskon)}',
+                  style: const TextStyle(color: Color(0xFFBBF76A), fontSize: 10),
                 ),
               ),
               Positioned(
-                left: 52,
+                left: 82,
                 right: 0,
                 bottom: 0,
                 child: Row(

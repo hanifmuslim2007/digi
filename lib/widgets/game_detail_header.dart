@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 
 class GameDetailHeader extends StatelessWidget {
-  const GameDetailHeader({super.key});
+  const GameDetailHeader({
+    super.key,
+    required this.imageUrl,
+    required this.genre,
+    required this.batasPromo,
+  });
+
+  final String imageUrl;
+  final String genre;
+  final String batasPromo;
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +20,7 @@ class GameDetailHeader extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           Image.network(
-            'https://cdn.akamai.steamstatic.com/steam/apps/990080/header.jpg',
+            imageUrl,
             fit: BoxFit.cover,
             errorBuilder: (context, error, stackTrace) => const ColoredBox(
               color: Color(0xFF202936),
@@ -72,7 +81,7 @@ class GameDetailHeader extends StatelessWidget {
               ],
             ),
           ),
-          const Positioned(
+          Positioned(
             left: 24,
             right: 24,
             bottom: 4,
@@ -80,18 +89,22 @@ class GameDetailHeader extends StatelessWidget {
               spacing: 7,
               runSpacing: 4,
               children: [
+                if (genre.isNotEmpty)
+                  Text(
+                    genre.toUpperCase(),
+                    style: const TextStyle(
+                      color: Color(0xFF97A3B5),
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 1.5,
+                    ),
+                  ),
                 Text(
-                  'OPEN-WORLD RPG',
-                  style: TextStyle(
+                  'Berakhir $batasPromo',
+                  style: const TextStyle(
                     color: Color(0xFF97A3B5),
                     fontSize: 10,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 1.5,
                   ),
-                ),
-                Text(
-                  'Standard edition',
-                  style: TextStyle(color: Color(0xFF97A3B5), fontSize: 10),
                 ),
               ],
             ),

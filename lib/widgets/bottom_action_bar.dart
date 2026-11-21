@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class BottomActionBar extends StatelessWidget {
-  const BottomActionBar({super.key});
+  const BottomActionBar({super.key, required this.platform});
+
+  final String platform;
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +45,9 @@ class BottomActionBar extends StatelessWidget {
                   borderRadius: BorderRadius.circular(14),
                 ),
                 alignment: Alignment.center,
-                child: const Text(
-                  'Buy on Steam',
-                  style: TextStyle(color: Color(0xFF13200D), fontSize: 14),
+                child: Text(
+                  'Buy on $platform',
+                  style: const TextStyle(color: Color(0xFF13200D), fontSize: 14),
                 ),
               ),
             ),

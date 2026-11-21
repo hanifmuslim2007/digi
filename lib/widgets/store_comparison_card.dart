@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 
 class StoreComparisonCard extends StatelessWidget {
-  const StoreComparisonCard({super.key});
+  const StoreComparisonCard({
+    super.key,
+    required this.platform,
+    required this.hargaDiskon,
+    required this.hargaAwal,
+  });
+
+  final String platform;
+  final String hargaDiskon;
+  final String hargaAwal;
 
   @override
   Widget build(BuildContext context) {
@@ -18,187 +27,98 @@ class StoreComparisonCard extends StatelessWidget {
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         spacing: 4,
         children: [
-          Container(
-            width: double.infinity,
-            clipBehavior: Clip.antiAlias,
-            decoration: const BoxDecoration(),
-            child: const Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'COMPARE STORES',
-                  style: TextStyle(
-                    color: Color(0xFF97A3B5),
-                    fontSize: 9,
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w400,
-                    letterSpacing: 1.30,
-                  ),
-                ),
-                Text(
-                  'Updated 2 min ago',
-                  style: TextStyle(
-                    color: Color(0xFF68768A),
-                    fontSize: 9,
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ],
+          const Text(
+            'HARGA PROMO',
+            style: TextStyle(
+              color: Color(0xFF97A3B5),
+              fontSize: 9,
+              fontWeight: FontWeight.w400,
+              letterSpacing: 1.30,
             ),
           ),
+          _HargaBaris(
+            icon: Icons.store,
+            label: platform,
+            keterangan: 'Harga diskon',
+            harga: hargaDiskon,
+            hargaColor: const Color(0xFFBBF76A),
+          ),
+          const Divider(height: 1, color: Color(0xFF29323F)),
+          _HargaBaris(
+            icon: Icons.local_offer_outlined,
+            label: 'Harga awal',
+            keterangan: 'Sebelum diskon',
+            harga: hargaAwal,
+            hargaColor: const Color(0xFFF6F7FB),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _HargaBaris extends StatelessWidget {
+  const _HargaBaris({
+    required this.icon,
+    required this.label,
+    required this.keterangan,
+    required this.harga,
+    required this.hargaColor,
+  });
+
+  final IconData icon;
+  final String label;
+  final String keterangan;
+  final String harga;
+  final Color hargaColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 52,
+      child: Row(
+        spacing: 10,
+        children: [
           Container(
-            width: double.infinity,
-            height: 52,
-            clipBehavior: Clip.antiAlias,
-            decoration: const BoxDecoration(),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              spacing: 10,
-              children: [
-                Container(
-                  width: 34,
-                  height: 34,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: ShapeDecoration(
-                    color: const Color(0xFF202936),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: const Center(
-                    child: Icon(Icons.store, color: Colors.white, size: 16),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    clipBehavior: Clip.antiAlias,
-                    decoration: const BoxDecoration(),
-                    child: const Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 3,
-                      children: [
-                        Text(
-                          'Steam',
-                          style: TextStyle(
-                            color: Color(0xFFF6F7FB),
-                            fontSize: 13,
-                            fontFamily: 'Inter',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        Text(
-                          'Lowest price',
-                          style: TextStyle(
-                            color: Color(0xFFBBF76A),
-                            fontSize: 10,
-                            fontFamily: 'Inter',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const Text(
-                  '\$29.99',
-                  style: TextStyle(
-                    color: Color(0xFFBBF76A),
-                    fontSize: 18,
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ],
+            width: 34,
+            height: 34,
+            decoration: ShapeDecoration(
+              color: const Color(0xFF202936),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
+            child: Center(child: Icon(icon, color: Colors.white, size: 16)),
           ),
-          Container(
-            width: double.infinity,
-            height: 1,
-            decoration: const BoxDecoration(color: Color(0xFF29323F)),
-          ),
-          Container(
-            width: double.infinity,
-            height: 52,
-            clipBehavior: Clip.antiAlias,
-            decoration: const BoxDecoration(),
-            child: Row(
+          Expanded(
+            child: Column(
               mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              spacing: 10,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 3,
               children: [
-                Container(
-                  width: 34,
-                  height: 34,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: ShapeDecoration(
-                    color: const Color(0xFF202936),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: const Center(
-                    child: Icon(
-                      Icons.storefront,
-                      color: Colors.white,
-                      size: 16,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    clipBehavior: Clip.antiAlias,
-                    decoration: const BoxDecoration(),
-                    child: const Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 3,
-                      children: [
-                        Text(
-                          'Epic Games',
-                          style: TextStyle(
-                            color: Color(0xFFF6F7FB),
-                            fontSize: 13,
-                            fontFamily: 'Inter',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        Text(
-                          'Standard edition',
-                          style: TextStyle(
-                            color: Color(0xFF97A3B5),
-                            fontSize: 10,
-                            fontFamily: 'Inter',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const Text(
-                  '\$35.99',
-                  style: TextStyle(
+                Text(
+                  label,
+                  style: const TextStyle(
                     color: Color(0xFFF6F7FB),
-                    fontSize: 18,
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w400,
+                    fontSize: 13,
+                  ),
+                ),
+                Text(
+                  keterangan,
+                  style: const TextStyle(
+                    color: Color(0xFF97A3B5),
+                    fontSize: 10,
                   ),
                 ),
               ],
             ),
+          ),
+          Text(
+            harga,
+            style: TextStyle(color: hargaColor, fontSize: 16),
           ),
         ],
       ),

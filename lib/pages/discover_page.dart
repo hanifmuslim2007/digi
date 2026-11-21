@@ -1,67 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/promo_game_provider.dart';
 import '../widgets/custom_search_bar.dart';
 import '../widgets/discover_bottom_nav.dart';
 import '../widgets/discover_header.dart';
 import '../widgets/platform_filter_row.dart';
-import '../widgets/top_deal_card.dart';
+import '../widgets/top_deals_carousel.dart';
 import '../widgets/trending_drop_tile.dart';
 import 'game_detail_page.dart';
+import 'promo_form_page.dart';
 
-class DiscoverPage extends StatefulWidget {
+class DiscoverPage extends StatelessWidget {
   const DiscoverPage({super.key});
 
-  @override
-  State<DiscoverPage> createState() => _DiscoverPageState();
-}
-
-class _DiscoverPageState extends State<DiscoverPage> {
-  String _searchQuery = '';
+  void _bukaDetail(BuildContext context, int idPromo) {
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (_) => GameDetailPage(idPromo: idPromo),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    const games = [
-      (
-        title: 'Cyberpunk 2077',
-        platform: 'Steam · PC',
-        originalPrice: '\$59.99',
-        currentPrice: '\$29.99',
-        discount: '−50%',
-        imageUrl:
-            'https://cdn.akamai.steamstatic.com/steam/apps/1091500/header.jpg',
-      ),
-      (
-        title: 'God of War Ragnarök',
-        platform: 'PlayStation · PS5',
-        originalPrice: '\$69.99',
-        currentPrice: '\$39.99',
-        discount: '−43%',
-        imageUrl:
-            'https://cdn.akamai.steamstatic.com/steam/apps/2322010/header.jpg',
-      ),
-      (
-        title: 'Forza Horizon 5',
-        platform: 'Xbox · Series X|S',
-        originalPrice: '\$59.99',
-        currentPrice: '\$29.99',
-        discount: '−50%',
-        imageUrl:
-            'https://cdn.akamai.steamstatic.com/steam/apps/1551360/header.jpg',
-      ),
-    ];
-    final normalizedQuery = _searchQuery.trim().toLowerCase();
-    final filteredGames = games
-        .where(
-          (game) =>
-              game.title.toLowerCase().contains(normalizedQuery) ||
-              game.platform.toLowerCase().contains(normalizedQuery),
-        )
+    final provider = context.watch<PromoGameProvider>();
+    final promos = provider.filteredPromos;
+    final topDeals = provider.topDeals;
+    final trending = promos
+        .where((promo) => !topDeals.any((item) => item.idPromo == promo.idPromo))
         .toList();
-    final showTopDeal =
-        normalizedQuery.isEmpty || 'hogwarts legacy'.contains(normalizedQuery);
+    final adaFilter =
+        provider.query.trim().isNotEmpty || provider.platform != 'All';
 
     return Scaffold(
       backgroundColor: const Color(0xFF0C1017),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xFFBBF76A),
+        foregroundColor: const Color(0xFF13200D),
+        tooltip: 'Tambah promo',
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute<void>(
+              builder: (_) => const PromoFormPage(),
+            ),
+          );
+        },
+        child: const Icon(Icons.add),
+      ),
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
@@ -70,67 +58,96 @@ class _DiscoverPageState extends State<DiscoverPage> {
             children: [
               const DiscoverHeader(),
               Padding(
-                padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
+                padding: const EdgeInsets.fromLTRB(24, 8, 24, 96),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     CustomSearchBar(
-                      onChanged: (value) {
-                        setState(() => _searchQuery = value);
-                      },
+                      onChanged: provider.setQuery,
                     ),
                     const SizedBox(height: 20),
-                    const PlatformFilterRow(),
-                    const SizedBox(height: 20),
-                    if (showTopDeal) ...[
-                      const _SectionHeading(
-                        title: 'Top Deals',
-                        action: 'Explore all',
-                      ),
-                      const SizedBox(height: 12),
-                      GestureDetector(
-                        key: const Key('top-deal-card'),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute<void>(
-                              builder: (_) => const GameDetailPage(),
-                            ),
-                          );
-                        },
-                        child: const TopDealCard(),
-                      ),
-                    ],
-                    const SizedBox(height: 20),
-                    _SectionHeading(
-                      title: 'Trending Drops',
-                      action: 'View all',
+                    PlatformFilterRow(
+                      selected: provider.platform,
+                      onChanged: provider.setPlatform,
                     ),
-                    const SizedBox(height: 8),
-                    if (filteredGames.isEmpty && !showTopDeal)
+                    const SizedBox(height: 20),
+                    if (provider.loading && promos.isEmpty)
                       const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 24),
+                        padding: EdgeInsets.symmetric(vertical: 64),
                         child: Center(
-                          child: Text(
-                            'No games found',
-                            style: TextStyle(color: Color(0xFF97A3B5)),
+                          child: CircularProgressIndicator(
+                            color: Color(0xFFBBF76A),
                           ),
                         ),
                       )
-                    else
-                      Column(
-                        children: [
-                          for (final game in filteredGames)
-                            TrendingDropTile(
-                              title: game.title,
-                              platform: game.platform,
-                              originalPrice: game.originalPrice,
-                              currentPrice: game.currentPrice,
-                              discount: game.discount,
-                              imageUrl: game.imageUrl,
+                    else if (provider.error != null && promos.isEmpty)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 48),
+                        child: Column(
+                          children: [
+                            Text(
+                              provider.error!,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                color: Color(0xFF97A3B5),
+                                fontSize: 12,
+                              ),
                             ),
-                        ],
+                            const SizedBox(height: 16),
+                            OutlinedButton.icon(
+                              onPressed: provider.loadPromos,
+                              icon: const Icon(Icons.refresh, size: 16),
+                              label: const Text('Coba lagi'),
+                            ),
+                          ],
+                        ),
+                      )
+                    else ...[
+                      if (topDeals.isNotEmpty) ...[
+                        const _SectionHeading(
+                          title: 'Top Deals',
+                          action: '4 terpopuler',
+                        ),
+                        const SizedBox(height: 12),
+                        TopDealsCarousel(
+                          promos: topDeals,
+                          onTap: (promo) => _bukaDetail(context, promo.idPromo),
+                        ),
+                        const SizedBox(height: 20),
+                      ],
+                      _SectionHeading(
+                        title: 'Trending Drops',
+                        action: 'View all',
                       ),
+                      const SizedBox(height: 8),
+                      if (trending.isEmpty && adaFilter)
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 24),
+                          child: Center(
+                            child: Text(
+                              'No games found',
+                              style: TextStyle(color: Color(0xFF97A3B5)),
+                            ),
+                          ),
+                        )
+                      else if (trending.isNotEmpty)
+                        Column(
+                          children: [
+                            for (final promo in trending)
+                              GestureDetector(
+                                onTap: () => _bukaDetail(context, promo.idPromo),
+                                child: TrendingDropTile(
+                                  title: promo.namaGame,
+                                  platform: promo.platform,
+                                  originalPrice: promo.formatHargaAwal,
+                                  currentPrice: promo.formatHargaDiskon,
+                                  discount: promo.labelDiskon,
+                                  imageUrl: promo.gambarGame,
+                                ),
+                              ),
+                          ],
+                        ),
+                    ],
                   ],
                 ),
               ),
