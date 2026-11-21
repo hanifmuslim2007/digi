@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import '../models/promo_game.dart';
+import '../models/sync_result.dart';
 import '../services/promo_game_service.dart';
 
 class PromoGameProvider extends ChangeNotifier {
@@ -11,12 +12,14 @@ class PromoGameProvider extends ChangeNotifier {
 
   List<PromoGame> _promos = [];
   bool _loading = false;
+  bool _syncing = false;
   String? _error;
   String _query = '';
   String _platform = 'All';
 
   List<PromoGame> get promos => List.unmodifiable(_promos);
   bool get loading => _loading;
+  bool get syncing => _syncing;
   String? get error => _error;
   String get query => _query;
   String get platform => _platform;
@@ -63,6 +66,23 @@ class PromoGameProvider extends ChangeNotifier {
       _error = _pesan(e);
     } finally {
       _loading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<SyncResult?> syncFromCheapShark() async {
+    _syncing = true;
+    _error = null;
+    notifyListeners();
+    try {
+      final hasil = await _service.syncCheapShark();
+      await loadPromos();
+      return hasil;
+    } catch (e) {
+      _error = _pesan(e);
+      return null;
+    } finally {
+      _syncing = false;
       notifyListeners();
     }
   }

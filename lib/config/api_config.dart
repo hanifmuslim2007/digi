@@ -6,6 +6,10 @@ class ApiConfig {
   static const String create = '$baseUrl/create.php';
   static const String edit = '$baseUrl/edit.php';
   static const String delete = '$baseUrl/delete.php';
+  static const String syncCheapShark = '$baseUrl/sync_cheapshark.php';
+
+  /// Jumlah deal CheapShark yang diambil setiap kali sinkron.
+  static const int cheapSharkJumlah = 12;
 
   static const List<String> platformOptions = [
     'Steam',

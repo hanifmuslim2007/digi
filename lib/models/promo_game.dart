@@ -20,6 +20,7 @@ class PromoGame {
     required this.statusPromo,
     required this.genre,
     required this.deskripsi,
+    this.sumber = 'manual',
   });
 
   final int idPromo;
@@ -32,6 +33,7 @@ class PromoGame {
   final String statusPromo;
   final String genre;
   final String deskripsi;
+  final String sumber;
 
   factory PromoGame.fromJson(Map<String, dynamic> json) {
     return PromoGame(
@@ -47,6 +49,7 @@ class PromoGame {
       statusPromo: json['status_promo']?.toString() ?? 'aktif',
       genre: json['genre']?.toString() ?? '',
       deskripsi: json['deskripsi']?.toString() ?? '',
+      sumber: json['sumber']?.toString() ?? 'manual',
     );
   }
 
@@ -62,6 +65,7 @@ class PromoGame {
       'status_promo': statusPromo,
       'genre': genre,
       'deskripsi': deskripsi,
+      'sumber': sumber,
     };
   }
 
@@ -94,6 +98,8 @@ class PromoGame {
     }
     return 'https://store.steampowered.com/search/?term=$kata';
   }
+
+  bool get dariCheapShark => sumber == 'cheapshark';
 
   bool get isAktif => statusPromo == 'aktif';
 

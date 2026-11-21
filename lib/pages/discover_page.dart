@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../models/promo_game.dart';
 import '../providers/promo_game_provider.dart';
+import '../widgets/cheapshark_sync_button.dart';
 import '../widgets/custom_search_bar.dart';
 import '../widgets/discover_bottom_nav.dart';
 import '../widgets/discover_header.dart';
@@ -156,6 +157,8 @@ class _DiscoverPageState extends State<DiscoverPage> {
                         selected: provider.platform,
                         onChanged: provider.setPlatform,
                       ),
+                      const SizedBox(height: 12),
+                      const CheapSharkSyncButton(),
                       const SizedBox(height: 20),
                       if (provider.loading && promos.isEmpty)
                         const Padding(

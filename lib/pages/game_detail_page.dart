@@ -160,6 +160,28 @@ class GameDetailPage extends StatelessWidget {
                         fontSize: 11,
                       ),
                     ),
+                    if (promo.dariCheapShark)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.auto_awesome,
+                              size: 12,
+                              color: Color(0xFFBBF76A),
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              'Diskon otomatis via CheapShark',
+                              style: TextStyle(
+                                color: Color(0xFFBBF76A),
+                                fontSize: 10,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     if (kedaluwarsa)
                       Padding(
                         padding: const EdgeInsets.only(top: 10),

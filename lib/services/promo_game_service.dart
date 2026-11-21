@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 
 import '../config/api_config.dart';
 import '../models/promo_game.dart';
+import '../models/sync_result.dart';
 
 class PromoGameService {
   PromoGameService({Dio? dio})
@@ -62,13 +63,32 @@ class PromoGameService {
     await _kirim(ApiConfig.delete, {'id_promo': id});
   }
 
-  Future<void> _kirim(String url, Map<String, dynamic> data) async {
+  /// Menarik deal diskon dari CheapShark lalu menyimpannya ke database lokal.
+  Future<SyncResult> syncCheapShark({int jumlah = ApiConfig.cheapSharkJumlah}) async {
+    final body = await _kirim(
+      ApiConfig.syncCheapShark,
+      {'jumlah': jumlah},
+      timeout: const Duration(seconds: 45),
+    );
+    return SyncResult.fromJson(body);
+  }
+
+  Future<Map<String, dynamic>> _kirim(
+    String url,
+    Map<String, dynamic> data, {
+    Duration? timeout,
+  }) async {
     try {
-      final response = await _dio.post(url, data: data);
+      final response = await _dio.post(
+        url,
+        data: data,
+        options: Options(receiveTimeout: timeout),
+      );
       final body = Map<String, dynamic>.from(response.data as Map);
       if (body['success'] != true) {
         throw Exception(body['message']?.toString() ?? 'Permintaan gagal');
       }
+      return body;
     } on DioException catch (e) {
       throw Exception(_pesan(e));
     }
