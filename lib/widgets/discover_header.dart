@@ -22,7 +22,7 @@ class DiscoverHeader extends StatelessWidget {
             children: [
               Flexible(
                 child: Text(
-                  'PEMANTAU DISKON GAME',
+                  'DIGI: DISKON GAME',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
