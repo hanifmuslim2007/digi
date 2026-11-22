@@ -6,6 +6,7 @@ import '../config/api_config.dart';
 import '../config/app_keys.dart';
 import '../models/promo_game.dart';
 import '../providers/promo_game_provider.dart';
+import '../config/app_theme.dart';
 
 class PromoFormPage extends StatefulWidget {
   const PromoFormPage({super.key, this.promo});
@@ -49,7 +50,7 @@ class _PromoFormPageState extends State<PromoFormPage> {
     _deskripsi = TextEditingController(text: promo?.deskripsi ?? '');
     _platform = promo?.platform ?? ApiConfig.platformOptions.first;
     _status = promo?.statusPromo ?? ApiConfig.statusOptions.first;
-    _batas = promo?.batasPromo ?? DateTime.now().add(const Duration(days: 30));
+    _batas = promo?.batasPromo ?? DateTime.now().add(Duration(days: 30));
   }
 
   @override
@@ -67,21 +68,21 @@ class _PromoFormPageState extends State<PromoFormPage> {
     return InputDecoration(
       labelText: label,
       hintText: hint,
-      labelStyle: const TextStyle(color: Color(0xFF97A3B5)),
-      hintStyle: const TextStyle(color: Color(0xFF68768A)),
+      labelStyle: TextStyle(color: context.palette.textMuted),
+      hintStyle: TextStyle(color: context.palette.textSubtle),
       filled: true,
-      fillColor: const Color(0xFF161D28),
+      fillColor: context.palette.surface,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: Color(0xFF29323F)),
+        borderSide: BorderSide(color: context.palette.border),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: Color(0xFF29323F)),
+        borderSide: BorderSide(color: context.palette.border),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: Color(0xFFBBF76A)),
+        borderSide: BorderSide(color: context.palette.accent),
       ),
     );
   }
@@ -113,7 +114,7 @@ class _PromoFormPageState extends State<PromoFormPage> {
     final diskon = _angka(_hargaDiskon.text) ?? 0;
     if (diskon > awal) {
       scaffoldMessengerKey.currentState?.showSnackBar(
-        const SnackBar(content: Text('Harga diskon tidak boleh lebih besar dari harga awal')),
+        SnackBar(content: Text('Harga diskon tidak boleh lebih besar dari harga awal')),
       );
       return;
     }
@@ -155,14 +156,14 @@ class _PromoFormPageState extends State<PromoFormPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0C1017),
+      backgroundColor: context.palette.background,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF0C1017),
+        backgroundColor: context.palette.background,
         title: Text(
           _modeEdit ? 'Ubah Promo' : 'Tambah Promo',
-          style: const TextStyle(color: Color(0xFFF6F7FB), fontSize: 18),
+          style: TextStyle(color: context.palette.text, fontSize: 18),
         ),
-        iconTheme: const IconThemeData(color: Color(0xFFF6F7FB)),
+        iconTheme: IconThemeData(color: context.palette.text),
       ),
       body: SafeArea(
         child: Form(
@@ -182,7 +183,7 @@ class _PromoFormPageState extends State<PromoFormPage> {
                 DropdownButtonFormField<String>(
                   initialValue: _platform,
                   decoration: _decor('Platform'),
-                  dropdownColor: const Color(0xFF161D28),
+                  dropdownColor: context.palette.surface,
                   items: [
                     for (final item in ApiConfig.platformOptions)
                       DropdownMenuItem(value: item, child: Text(item)),
@@ -233,7 +234,7 @@ class _PromoFormPageState extends State<PromoFormPage> {
                     decoration: _decor('Batas promo'),
                     child: Text(
                       _tanggal.format(_batas),
-                      style: const TextStyle(color: Color(0xFFF6F7FB)),
+                      style: TextStyle(color: context.palette.text),
                     ),
                   ),
                 ),
@@ -244,7 +245,7 @@ class _PromoFormPageState extends State<PromoFormPage> {
                       child: DropdownButtonFormField<String>(
                         initialValue: _status,
                         decoration: _decor('Status'),
-                        dropdownColor: const Color(0xFF161D28),
+                        dropdownColor: context.palette.surface,
                         items: [
                           for (final item in ApiConfig.statusOptions)
                             DropdownMenuItem(value: item, child: Text(item)),
@@ -275,19 +276,19 @@ class _PromoFormPageState extends State<PromoFormPage> {
                   height: 50,
                   child: FilledButton(
                     style: FilledButton.styleFrom(
-                      backgroundColor: const Color(0xFFBBF76A),
-                      foregroundColor: const Color(0xFF13200D),
+                      backgroundColor: context.palette.accent,
+                      foregroundColor: context.palette.onAccent,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
                       ),
                     ),
                     onPressed: _saving ? null : _simpan,
                     child: _saving
-                        ? const SizedBox(
+                        ? SizedBox(
                             height: 20,
                             width: 20,
                             child: CircularProgressIndicator(
-                              color: Color(0xFF13200D),
+                              color: context.palette.onAccent,
                               strokeWidth: 2,
                             ),
                           )

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../config/app_keys.dart';
+import '../config/app_theme.dart';
 
 class BottomActionBar extends StatelessWidget {
   const BottomActionBar({
@@ -45,17 +46,17 @@ class BottomActionBar extends StatelessWidget {
     return SafeArea(
       top: false,
       child: Container(
-        padding: const EdgeInsets.fromLTRB(24, 14, 24, 14),
-        decoration: const BoxDecoration(
-          color: Color(0xFF0C1017),
-          border: Border(top: BorderSide(color: Color(0xFF29323F))),
+        padding: EdgeInsets.fromLTRB(24, 14, 24, 14),
+        decoration: BoxDecoration(
+          color: context.palette.background,
+          border: Border(top: BorderSide(color: context.palette.border)),
         ),
         child: Row(
           children: [
             Expanded(
               flex: 2,
               child: Material(
-                color: const Color(0xFF161D28),
+                color: context.palette.surface,
                 borderRadius: BorderRadius.circular(14),
                 clipBehavior: Clip.antiAlias,
                 child: InkWell(
@@ -63,25 +64,25 @@ class BottomActionBar extends StatelessWidget {
                   child: Container(
                     height: 50,
                     decoration: BoxDecoration(
-                      border: Border.all(color: const Color(0xFF29323F)),
+                      border: Border.all(color: context.palette.border),
                       borderRadius: BorderRadius.circular(14),
                     ),
                     alignment: Alignment.center,
-                    child: const Text(
+                    child: Text(
                       'Add to Wishlist',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(color: Color(0xFFF6F7FB), fontSize: 12),
+                      style: TextStyle(color: context.palette.text, fontSize: 12),
                     ),
                   ),
                 ),
               ),
             ),
-            const SizedBox(width: 10),
+            SizedBox(width: 10),
             Expanded(
               flex: 3,
               child: Material(
-                color: const Color(0xFFBBF76A),
+                color: context.palette.accent,
                 borderRadius: BorderRadius.circular(14),
                 clipBehavior: Clip.antiAlias,
                 child: InkWell(
@@ -96,18 +97,18 @@ class BottomActionBar extends StatelessWidget {
                             'Buy on $platform',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              color: Color(0xFF13200D),
+                            style: TextStyle(
+                              color: context.palette.onAccent,
                               fontSize: 14,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
                         ),
                         const SizedBox(width: 6),
-                        const Icon(
+                        Icon(
                           Icons.open_in_new,
                           size: 14,
-                          color: Color(0xFF13200D),
+                          color: context.palette.onAccent,
                         ),
                       ],
                     ),

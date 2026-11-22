@@ -1,5 +1,5 @@
 class ApiConfig {
-  static const String host = '192.168.1.3';
+  static const String host = '192.168.1.6';
   static const String baseUrl = 'http://$host/api_digi';
 
   static const String read = '$baseUrl/read.php';

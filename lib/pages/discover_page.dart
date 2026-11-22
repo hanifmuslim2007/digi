@@ -12,6 +12,7 @@ import '../widgets/top_deals_carousel.dart';
 import '../widgets/trending_drop_tile.dart';
 import 'game_detail_page.dart';
 import 'promo_form_page.dart';
+import '../config/app_theme.dart';
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({super.key});
@@ -62,13 +63,13 @@ class _DiscoverPageState extends State<DiscoverPage> {
     final adaLokal = _visibleCount < trending.length;
     final sekarang = DateTime.now();
     final bolehRefresh = _terakhirRefresh == null ||
-        sekarang.difference(_terakhirRefresh!) > const Duration(seconds: 15);
+        sekarang.difference(_terakhirRefresh!) > Duration(seconds: 15);
     if (!adaLokal && !bolehRefresh) return;
 
     setState(() => _loadingMore = true);
     try {
       if (adaLokal) {
-        await Future<void>.delayed(const Duration(milliseconds: 650));
+        await Future<void>.delayed(Duration(milliseconds: 650));
         if (!mounted) return;
         setState(() {
           _visibleCount =
@@ -118,36 +119,36 @@ class _DiscoverPageState extends State<DiscoverPage> {
     }
 
     return Scaffold(
-      backgroundColor: const Color(0xFF0C1017),
+      backgroundColor: context.palette.background,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xFFBBF76A),
-        foregroundColor: const Color(0xFF13200D),
+        backgroundColor: context.palette.accent,
+        foregroundColor: context.palette.onAccent,
         tooltip: 'Tambah promo',
         onPressed: () {
           Navigator.push(
             context,
             MaterialPageRoute<void>(
-              builder: (_) => const PromoFormPage(),
+              builder: (_) => PromoFormPage(),
             ),
           );
         },
-        child: const Icon(Icons.add),
+        child: Icon(Icons.add),
       ),
       body: SafeArea(
         bottom: false,
         child: RefreshIndicator(
-          color: const Color(0xFFBBF76A),
-          backgroundColor: const Color(0xFF161D28),
+          color: context.palette.accent,
+          backgroundColor: context.palette.surface,
           onRefresh: provider.loadPromos,
           child: SingleChildScrollView(
             controller: _scrollController,
-            physics: const AlwaysScrollableScrollPhysics(),
+            physics: AlwaysScrollableScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const DiscoverHeader(),
+                DiscoverHeader(),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 8, 24, 96),
+                  padding: EdgeInsets.fromLTRB(24, 8, 24, 96),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -158,27 +159,27 @@ class _DiscoverPageState extends State<DiscoverPage> {
                         onChanged: provider.setPlatform,
                       ),
                       const SizedBox(height: 12),
-                      const CheapSharkSyncButton(),
-                      const SizedBox(height: 20),
+                      CheapSharkSyncButton(),
+                      SizedBox(height: 20),
                       if (provider.loading && promos.isEmpty)
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.symmetric(vertical: 64),
                           child: Center(
                             child: CircularProgressIndicator(
-                              color: Color(0xFFBBF76A),
+                              color: context.palette.accent,
                             ),
                           ),
                         )
                       else if (provider.error != null && promos.isEmpty)
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 48),
+                          padding: EdgeInsets.symmetric(vertical: 48),
                           child: Column(
                             children: [
                               Text(
                                 provider.error!,
                                 textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  color: Color(0xFF97A3B5),
+                                style: TextStyle(
+                                  color: context.palette.textMuted,
                                   fontSize: 12,
                                 ),
                               ),
@@ -211,12 +212,12 @@ class _DiscoverPageState extends State<DiscoverPage> {
                         ),
                         const SizedBox(height: 8),
                         if (trending.isEmpty && adaFilter)
-                          const Padding(
+                          Padding(
                             padding: EdgeInsets.symmetric(vertical: 24),
                             child: Center(
                               child: Text(
                                 'No games found',
-                                style: TextStyle(color: Color(0xFF97A3B5)),
+                                style: TextStyle(color: context.palette.textMuted),
                               ),
                             ),
                           )
@@ -239,7 +240,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                             ],
                           ),
                         if (_loadingMore)
-                          const Padding(
+                          Padding(
                             padding: EdgeInsets.symmetric(vertical: 18),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -249,14 +250,14 @@ class _DiscoverPageState extends State<DiscoverPage> {
                                   height: 18,
                                   child: CircularProgressIndicator(
                                     strokeWidth: 2,
-                                    color: Color(0xFFBBF76A),
+                                    color: context.palette.accent,
                                   ),
                                 ),
                                 SizedBox(width: 10),
                                 Text(
                                   'Memuat promo lainnya...',
                                   style: TextStyle(
-                                    color: Color(0xFF97A3B5),
+                                    color: context.palette.textMuted,
                                     fontSize: 12,
                                   ),
                                 ),
@@ -271,8 +272,8 @@ class _DiscoverPageState extends State<DiscoverPage> {
                                 _visibleCount < trending.length
                                     ? 'Gulir bawah untuk melihat lagi'
                                     : 'Semua promo sudah ditampilkan',
-                                style: const TextStyle(
-                                  color: Color(0xFF68768A),
+                                style: TextStyle(
+                                  color: context.palette.textSubtle,
                                   fontSize: 11,
                                 ),
                               ),
@@ -287,7 +288,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
           ),
         ),
       ),
-      bottomNavigationBar: const DiscoverBottomNav(),
+      bottomNavigationBar: DiscoverBottomNav(),
     );
   }
 }
@@ -305,15 +306,15 @@ class _SectionHeading extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(
-            color: Color(0xFFF6F7FB),
+          style: TextStyle(
+            color: context.palette.text,
             fontSize: 20,
             fontWeight: FontWeight.w600,
           ),
         ),
         Text(
           action,
-          style: const TextStyle(color: Color(0xFF97A3B5), fontSize: 12),
+          style: TextStyle(color: context.palette.textMuted, fontSize: 12),
         ),
       ],
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../config/app_theme.dart';
 
 class DiscoverBottomNav extends StatelessWidget {
   const DiscoverBottomNav({super.key});
@@ -17,9 +18,9 @@ class DiscoverBottomNav extends StatelessWidget {
       child: Container(
         height: 60,
         padding: const EdgeInsets.symmetric(horizontal: 18),
-        decoration: const BoxDecoration(
-          color: Color(0xFF0C1017),
-          border: Border(top: BorderSide(color: Color(0xFF29323F))),
+        decoration: BoxDecoration(
+          color: context.palette.background,
+          border: Border(top: BorderSide(color: context.palette.border)),
         ),
         child: Row(
           children: [
@@ -32,16 +33,16 @@ class DiscoverBottomNav extends StatelessWidget {
                       _items[index].icon,
                       size: 20,
                       color: index == 0
-                          ? const Color(0xFFBBF76A)
-                          : const Color(0xFF68768A),
+                          ? context.palette.accent
+                          : context.palette.textSubtle,
                     ),
                     const SizedBox(height: 3),
                     Text(
                       _items[index].label,
                       style: TextStyle(
                         color: index == 0
-                            ? const Color(0xFFBBF76A)
-                            : const Color(0xFF68768A),
+                            ? context.palette.accent
+                            : context.palette.textSubtle,
                         fontSize: 10,
                       ),
                     ),

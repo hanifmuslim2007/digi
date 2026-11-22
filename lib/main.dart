@@ -3,8 +3,10 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 
 import 'config/app_keys.dart';
-import 'pages/discover_page.dart';
+import 'config/app_theme.dart';
+import 'pages/splash_page.dart';
 import 'providers/promo_game_provider.dart';
+import 'providers/theme_mode_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,22 +24,27 @@ class DigiApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => PromoGameProvider()..loadPromos(),
         ),
+        ChangeNotifierProvider(create: (_) => ThemeModeProvider()),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        navigatorKey: navigatorKey,
-        scaffoldMessengerKey: scaffoldMessengerKey,
-        theme: ThemeData(
-          brightness: Brightness.dark,
-          scaffoldBackgroundColor: const Color(0xFF0C1017),
-          colorScheme: const ColorScheme.dark(
-            surface: Color(0xFF0C1017),
-            primary: Color(0xFFBBF76A),
-          ),
-          useMaterial3: true,
-        ),
-        home: const DiscoverPage(),
-      ),
+      child: const RootApp(),
+    );
+  }
+}
+
+class RootApp extends StatelessWidget {
+  const RootApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final mode = context.watch<ThemeModeProvider>().mode;
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      navigatorKey: navigatorKey,
+      scaffoldMessengerKey: scaffoldMessengerKey,
+      theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
+      themeMode: mode,
+      home: const SplashPage(),
     );
   }
 }

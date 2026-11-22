@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../models/promo_game.dart';
 import 'top_deal_card.dart';
+import '../config/app_theme.dart';
 
 class TopDealsCarousel extends StatefulWidget {
   const TopDealsCarousel({
@@ -103,8 +104,8 @@ class _TopDealsCarouselState extends State<TopDealsCarousel> {
                   height: 6,
                   decoration: BoxDecoration(
                     color: index == _current
-                        ? const Color(0xFFBBF76A)
-                        : const Color(0xFF29323F),
+                        ? context.palette.accent
+                        : context.palette.border,
                     borderRadius: BorderRadius.circular(3),
                   ),
                 ),

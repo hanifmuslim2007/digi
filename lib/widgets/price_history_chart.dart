@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/promo_game.dart';
+import '../config/app_theme.dart';
 
 class PriceHistoryChart extends StatelessWidget {
   const PriceHistoryChart({
@@ -29,29 +30,29 @@ class PriceHistoryChart extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
+            Text(
               'Price history',
               style: TextStyle(
-                color: Color(0xFFF6F7FB),
+                color: context.palette.text,
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
                 letterSpacing: -0.4,
               ),
             ),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
+              padding: EdgeInsets.symmetric(horizontal: 9, vertical: 5),
               decoration: BoxDecoration(
-                color: const Color(0xFF161D28),
+                color: context.palette.surface,
                 borderRadius: BorderRadius.circular(6),
               ),
-              child: const Text(
+              child: Text(
                 'Last 6 months',
-                style: TextStyle(color: Color(0xFF97A3B5), fontSize: 10),
+                style: TextStyle(color: context.palette.textMuted, fontSize: 10),
               ),
             ),
           ],
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: 8),
         SizedBox(
           height: 146,
           child: Stack(
@@ -67,15 +68,15 @@ class PriceHistoryChart extends StatelessWidget {
                         width: 72,
                         child: Text(
                           labels[index],
-                          style: const TextStyle(
-                            color: Color(0xFF68768A),
+                          style: TextStyle(
+                            color: context.palette.textSubtle,
                             fontSize: 9,
                           ),
                         ),
                       ),
-                      const SizedBox(width: 10),
-                      const Expanded(
-                        child: Divider(height: 1, color: Color(0xFF29323F)),
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: Divider(height: 1, color: context.palette.border),
                       ),
                     ],
                   ),
@@ -87,9 +88,9 @@ class PriceHistoryChart extends StatelessWidget {
                   width: 9,
                   height: 9,
                   decoration: ShapeDecoration(
-                    color: const Color(0xFFBBF76A),
+                    color: context.palette.accent,
                     shape: OvalBorder(
-                      side: const BorderSide(width: 2, color: Color(0xFF0C1017)),
+                      side: BorderSide(width: 2, color: context.palette.background),
                     ),
                   ),
                 ),
@@ -99,7 +100,7 @@ class PriceHistoryChart extends StatelessWidget {
                 right: 0,
                 child: Text(
                   'Harga terendah · ${PromoGame.formatRupiah(hargaDiskon)}',
-                  style: const TextStyle(color: Color(0xFFBBF76A), fontSize: 10),
+                  style: TextStyle(color: context.palette.accent, fontSize: 10),
                 ),
               ),
               Positioned(
@@ -112,8 +113,8 @@ class PriceHistoryChart extends StatelessWidget {
                     for (final month in _months)
                       Text(
                         month,
-                        style: const TextStyle(
-                          color: Color(0xFF68768A),
+                        style: TextStyle(
+                          color: context.palette.textSubtle,
                           fontSize: 9,
                           fontWeight: FontWeight.w500,
                         ),

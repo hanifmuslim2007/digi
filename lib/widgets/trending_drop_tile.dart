@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../config/app_theme.dart';
 
 class TrendingDropTile extends StatelessWidget {
   const TrendingDropTile({
@@ -31,21 +32,21 @@ class TrendingDropTile extends StatelessWidget {
               width: 58,
               height: 58,
               fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => const SizedBox(
+              errorBuilder: (context, error, stackTrace) => SizedBox(
                 width: 58,
                 height: 58,
                 child: ColoredBox(
-                  color: Color(0xFF202936),
+                  color: context.palette.surfaceAlt,
                   child: Icon(
                     Icons.videogame_asset_outlined,
-                    color: Color(0xFF68768A),
+                    color: context.palette.textSubtle,
                     size: 24,
                   ),
                 ),
               ),
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -55,41 +56,41 @@ class TrendingDropTile extends StatelessWidget {
                   title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: Color(0xFFF6F7FB),
+                  style: TextStyle(
+                    color: context.palette.text,
                     fontSize: 14,
                   ),
                 ),
-                const SizedBox(height: 7),
+                SizedBox(height: 7),
                 Text(
                   platform,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: Color(0xFF97A3B5),
+                  style: TextStyle(
+                    color: context.palette.textMuted,
                     fontSize: 10,
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(width: 8),
+          SizedBox(width: 8),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
                 currentPrice,
-                style: const TextStyle(color: Color(0xFFF6F7FB), fontSize: 17),
+                style: TextStyle(color: context.palette.text, fontSize: 17),
               ),
-              const SizedBox(height: 5),
+              SizedBox(height: 5),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
                     originalPrice,
-                    style: const TextStyle(
-                      color: Color(0xFF68768A),
+                    style: TextStyle(
+                      color: context.palette.textSubtle,
                       fontSize: 10,
                       decoration: TextDecoration.lineThrough,
                     ),
@@ -97,8 +98,8 @@ class TrendingDropTile extends StatelessWidget {
                   const SizedBox(width: 6),
                   Text(
                     discount,
-                    style: const TextStyle(
-                      color: Color(0xFFBBF76A),
+                    style: TextStyle(
+                      color: context.palette.accent,
                       fontSize: 10,
                     ),
                   ),

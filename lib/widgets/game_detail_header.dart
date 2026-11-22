@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../config/app_theme.dart';
 
 class GameDetailHeader extends StatelessWidget {
   const GameDetailHeader({
@@ -24,16 +25,16 @@ class GameDetailHeader extends StatelessWidget {
           Image.network(
             imageUrl,
             fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) => const ColoredBox(
-              color: Color(0xFF202936),
+            errorBuilder: (context, error, stackTrace) => ColoredBox(
+              color: context.palette.surfaceAlt,
               child: Icon(
                 Icons.auto_awesome,
-                color: Color(0xFF68768A),
+                color: context.palette.textSubtle,
                 size: 48,
               ),
             ),
           ),
-          const DecoratedBox(
+          DecoratedBox(
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
@@ -41,7 +42,7 @@ class GameDetailHeader extends StatelessWidget {
                 colors: [
                   Color(0x590C1017),
                   Color(0x000C1017),
-                  Color(0xFF0C1017),
+                  context.palette.background,
                 ],
               ),
             ),
@@ -61,12 +62,12 @@ class GameDetailHeader extends StatelessWidget {
                     foregroundColor: Colors.white,
                     fixedSize: const Size(38, 38),
                   ),
-                  icon: const Icon(Icons.arrow_back, size: 18),
+                  icon: Icon(Icons.arrow_back, size: 18),
                 ),
-                const Text(
+                Text(
                   'GAME DETAILS',
                   style: TextStyle(
-                    color: Color(0xFFF6F7FB),
+                    color: context.palette.text,
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 2,
@@ -80,7 +81,7 @@ class GameDetailHeader extends StatelessWidget {
                     foregroundColor: Colors.white,
                     fixedSize: const Size(38, 38),
                   ),
-                  icon: const Icon(Icons.share_outlined, size: 18),
+                  icon: Icon(Icons.share_outlined, size: 18),
                 ),
               ],
             ),
@@ -96,8 +97,8 @@ class GameDetailHeader extends StatelessWidget {
                 if (genre.isNotEmpty)
                   Text(
                     genre.toUpperCase(),
-                    style: const TextStyle(
-                      color: Color(0xFF97A3B5),
+                    style: TextStyle(
+                      color: context.palette.textMuted,
                       fontSize: 10,
                       fontWeight: FontWeight.w600,
                       letterSpacing: 1.5,
@@ -105,8 +106,8 @@ class GameDetailHeader extends StatelessWidget {
                   ),
                 Text(
                   'Berakhir $batasPromo',
-                  style: const TextStyle(
-                    color: Color(0xFF97A3B5),
+                  style: TextStyle(
+                    color: context.palette.textMuted,
                     fontSize: 10,
                   ),
                 ),

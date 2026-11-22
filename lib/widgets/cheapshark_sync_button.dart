@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../config/app_keys.dart';
 import '../providers/promo_game_provider.dart';
+import '../config/app_theme.dart';
 
 class CheapSharkSyncButton extends StatelessWidget {
   const CheapSharkSyncButton({super.key});
@@ -31,23 +32,23 @@ class CheapSharkSyncButton extends StatelessWidget {
       child: OutlinedButton.icon(
         onPressed: sinkron ? null : () => _sinkron(context),
         icon: sinkron
-            ? const SizedBox(
+            ? SizedBox(
                 width: 16,
                 height: 16,
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
-                  color: Color(0xFFBBF76A),
+                  color: context.palette.accent,
                 ),
               )
-            : const Icon(Icons.cloud_download_outlined, size: 17),
+            : Icon(Icons.cloud_download_outlined, size: 17),
         label: Text(
           sinkron
               ? 'Mengambil diskon dari CheapShark...'
               : 'Sinkron diskon otomatis (CheapShark)',
         ),
         style: OutlinedButton.styleFrom(
-          foregroundColor: const Color(0xFFBBF76A),
-          side: const BorderSide(color: Color(0xFF4A5A36)),
+          foregroundColor: context.palette.accent,
+          side: BorderSide(color: context.palette.outline),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),

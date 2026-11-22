@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../config/app_theme.dart';
 
 class PlatformFilterRow extends StatelessWidget {
   const PlatformFilterRow({
@@ -28,8 +29,8 @@ class PlatformFilterRow extends StatelessWidget {
                   height: 30,
                   decoration: BoxDecoration(
                     color: platforms[index] == selected
-                        ? const Color(0xFFBBF76A)
-                        : const Color(0xFF161D28),
+                        ? context.palette.accent
+                        : context.palette.surface,
                     borderRadius: BorderRadius.circular(100),
                   ),
                   alignment: Alignment.center,
@@ -37,8 +38,8 @@ class PlatformFilterRow extends StatelessWidget {
                     platforms[index],
                     style: TextStyle(
                       color: platforms[index] == selected
-                          ? const Color(0xFF13200D)
-                          : const Color(0xFF97A3B5),
+                          ? context.palette.onAccent
+                          : context.palette.textMuted,
                       fontSize: 12,
                     ),
                   ),

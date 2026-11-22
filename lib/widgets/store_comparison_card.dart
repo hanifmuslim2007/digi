@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../config/app_theme.dart';
 
 class StoreComparisonCard extends StatelessWidget {
   const StoreComparisonCard({
@@ -16,12 +17,12 @@ class StoreComparisonCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
       clipBehavior: Clip.antiAlias,
       decoration: ShapeDecoration(
-        color: const Color(0xFF161D28),
+        color: context.palette.surface,
         shape: RoundedRectangleBorder(
-          side: const BorderSide(width: 1, color: Color(0xFF29323F)),
+          side: BorderSide(width: 1, color: context.palette.border),
           borderRadius: BorderRadius.circular(18),
         ),
       ),
@@ -30,10 +31,10 @@ class StoreComparisonCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         spacing: 4,
         children: [
-          const Text(
+          Text(
             'HARGA PROMO',
             style: TextStyle(
-              color: Color(0xFF97A3B5),
+              color: context.palette.textMuted,
               fontSize: 9,
               fontWeight: FontWeight.w400,
               letterSpacing: 1.30,
@@ -44,15 +45,15 @@ class StoreComparisonCard extends StatelessWidget {
             label: platform,
             keterangan: 'Harga diskon',
             harga: hargaDiskon,
-            hargaColor: const Color(0xFFBBF76A),
+            hargaColor: context.palette.accent,
           ),
-          const Divider(height: 1, color: Color(0xFF29323F)),
+          Divider(height: 1, color: context.palette.border),
           _HargaBaris(
             icon: Icons.local_offer_outlined,
             label: 'Harga awal',
             keterangan: 'Sebelum diskon',
             harga: hargaAwal,
-            hargaColor: const Color(0xFFF6F7FB),
+            hargaColor: context.palette.text,
           ),
         ],
       ),
@@ -86,7 +87,7 @@ class _HargaBaris extends StatelessWidget {
             width: 34,
             height: 34,
             decoration: ShapeDecoration(
-              color: const Color(0xFF202936),
+              color: context.palette.surfaceAlt,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -101,15 +102,15 @@ class _HargaBaris extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: const TextStyle(
-                    color: Color(0xFFF6F7FB),
+                  style: TextStyle(
+                    color: context.palette.text,
                     fontSize: 13,
                   ),
                 ),
                 Text(
                   keterangan,
-                  style: const TextStyle(
-                    color: Color(0xFF97A3B5),
+                  style: TextStyle(
+                    color: context.palette.textMuted,
                     fontSize: 10,
                   ),
                 ),
