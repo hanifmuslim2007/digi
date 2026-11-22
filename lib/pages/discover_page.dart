@@ -230,7 +230,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                                       _bukaDetail(context, promo.idPromo),
                                   child: TrendingDropTile(
                                     title: promo.namaGame,
-                                    platform: promo.platform,
+                                    platform: promo.platformRingkas,
                                     originalPrice: promo.formatHargaAwal,
                                     currentPrice: promo.formatHargaDiskon,
                                     discount: promo.labelDiskon,

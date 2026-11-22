@@ -19,7 +19,7 @@ class GameDetailPage extends StatelessWidget {
 
   Future<void> _bagikan(PromoGame promo) async {
     final teks = '${promo.namaGame} — ${promo.labelDiskon}\n'
-        '${promo.platform} · ${promo.formatHargaDiskon} '
+        '${promo.daftarPlatform.join(', ')} · ${promo.formatHargaDiskon} '
         '(dari ${promo.formatHargaAwal})\n'
         'Berlaku sampai ${promo.formatBatasPromo}.\n'
         'Lihat promonya: ${promo.storeUrl}';
@@ -155,7 +155,12 @@ class GameDetailPage extends StatelessWidget {
                     ),
                     SizedBox(height: 8),
                     Text(
-                      '${promo.platform}${promo.genre.isEmpty ? '' : ' · ${promo.genre}'}',
+                      [
+                        promo.daftarPlatform.join(' · '),
+                        if (promo.daftarToko.isNotEmpty)
+                          promo.daftarToko.join(' · '),
+                        if (promo.genre.isNotEmpty) promo.genre,
+                      ].join(' · '),
                       style: TextStyle(
                         color: context.palette.textMuted,
                         fontSize: 11,
@@ -305,7 +310,7 @@ class GameDetailPage extends StatelessWidget {
                     ],
                     const SizedBox(height: 22),
                     StoreComparisonCard(
-                      platform: promo.platform,
+                      platform: promo.platformRingkas,
                       hargaDiskon: promo.formatHargaDiskon,
                       hargaAwal: promo.formatHargaAwal,
                     ),
@@ -322,7 +327,7 @@ class GameDetailPage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomActionBar(
-        platform: promo.platform,
+        platform: promo.platformRingkas,
         storeUrl: promo.storeUrl,
         onWishlist: () {
           scaffoldMessengerKey.currentState?.showSnackBar(

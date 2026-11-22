@@ -21,6 +21,7 @@ class PromoGame {
     required this.genre,
     required this.deskripsi,
     this.sumber = 'manual',
+    this.toko = '',
   });
 
   final int idPromo;
@@ -34,6 +35,7 @@ class PromoGame {
   final String genre;
   final String deskripsi;
   final String sumber;
+  final String toko;
 
   factory PromoGame.fromJson(Map<String, dynamic> json) {
     return PromoGame(
@@ -50,6 +52,7 @@ class PromoGame {
       genre: json['genre']?.toString() ?? '',
       deskripsi: json['deskripsi']?.toString() ?? '',
       sumber: json['sumber']?.toString() ?? 'manual',
+      toko: json['toko']?.toString() ?? '',
     );
   }
 
@@ -66,6 +69,7 @@ class PromoGame {
       'genre': genre,
       'deskripsi': deskripsi,
       'sumber': sumber,
+      'toko': toko,
     };
   }
 
@@ -83,7 +87,10 @@ class PromoGame {
 
   String get storeUrl {
     final kata = Uri.encodeQueryComponent(namaGame);
-    final nama = platform.toLowerCase();
+    final nama = toko.isEmpty ? platform.toLowerCase() : toko.toLowerCase();
+    if (nama.contains('gog')) {
+      return 'https://www.gog.com/en/search?q=$kata';
+    }
     if (nama.contains('epic')) {
       return 'https://store.epicgames.com/en-US/browse?q=$kata';
     }
@@ -97,6 +104,27 @@ class PromoGame {
       return 'https://www.nintendo.com/us/search/#q=$kata';
     }
     return 'https://store.steampowered.com/search/?term=$kata';
+  }
+
+  /// Satu promo bisa berlaku di beberapa platform sekaligus.
+  List<String> get daftarPlatform => platform
+      .split(',')
+      .map((item) => item.trim())
+      .where((item) => item.isNotEmpty)
+      .toList();
+
+  List<String> get daftarToko => toko
+      .split(',')
+      .map((item) => item.trim())
+      .where((item) => item.isNotEmpty)
+      .toList();
+
+  /// Versi pendek untuk kartu: platform pertama + jumlah sisanya.
+  String get platformRingkas {
+    final daftar = daftarPlatform;
+    if (daftar.isEmpty) return platform;
+    if (daftar.length == 1) return daftar.first;
+    return '${daftar.first} +${daftar.length - 1}';
   }
 
   bool get dariCheapShark => sumber == 'cheapshark';

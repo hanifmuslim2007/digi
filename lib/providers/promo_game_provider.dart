@@ -30,6 +30,7 @@ class PromoGameProvider extends ChangeNotifier {
       final cocokKata = kata.isEmpty ||
           promo.namaGame.toLowerCase().contains(kata) ||
           promo.platform.toLowerCase().contains(kata) ||
+          promo.toko.toLowerCase().contains(kata) ||
           promo.genre.toLowerCase().contains(kata);
       return cocokKata && _cocokPlatform(promo);
     }).toList();
@@ -130,14 +131,25 @@ class PromoGameProvider extends ChangeNotifier {
 
   bool _cocokPlatform(PromoGame promo) {
     if (_platform == 'All') return true;
-    final nama = promo.platform.toLowerCase();
+    // Cek setiap platform yang melekat pada satu promo.
+    bool cocok(String kata) =>
+        promo.daftarPlatform.any((nama) => nama.toLowerCase().contains(kata));
+
     switch (_platform) {
       case 'PC':
-        return ['steam', 'epic games', 'pc'].any(nama.contains);
+        // CheapShark hanya menyediakan toko PC; semua platform toko tersebut
+        // harus tetap masuk filter "PC".
+        const pc = [
+          'steam', 'epic', 'gog', 'ubisoft', 'humble', 'fanatical',
+          'gamebillet', 'wingamestore', 'amazon', 'gamestop', 'origin',
+          'blizzard', 'gamesplanet', '2game', 'voidu', 'indiegala',
+          'dlgamer', 'gamersgate', 'pc',
+        ];
+        return pc.any(cocok);
       case 'PS5':
-        return nama.contains('playstation') || nama.contains('ps5');
+        return cocok('playstation') || cocok('ps5');
       default:
-        return nama.contains(_platform.toLowerCase());
+        return cocok(_platform.toLowerCase());
     }
   }
 

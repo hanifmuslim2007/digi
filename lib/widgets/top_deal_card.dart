@@ -109,7 +109,7 @@ class TopDealCard extends StatelessWidget {
                         children: [
                           Flexible(
                             child: Text(
-                              promo.platform,
+                              promo.platformRingkas,
                               style: TextStyle(
                                 color: context.palette.textMuted,
                                 fontSize: 11,

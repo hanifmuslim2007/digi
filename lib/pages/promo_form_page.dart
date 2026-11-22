@@ -27,7 +27,7 @@ class _PromoFormPageState extends State<PromoFormPage> {
   late final TextEditingController _gambar;
   late final TextEditingController _genre;
   late final TextEditingController _deskripsi;
-  late String _platform;
+  late final TextEditingController _platformController;
   late String _status;
   late DateTime _batas;
   bool _saving = false;
@@ -48,7 +48,7 @@ class _PromoFormPageState extends State<PromoFormPage> {
     _gambar = TextEditingController(text: promo?.gambarGame ?? '');
     _genre = TextEditingController(text: promo?.genre ?? '');
     _deskripsi = TextEditingController(text: promo?.deskripsi ?? '');
-    _platform = promo?.platform ?? ApiConfig.platformOptions.first;
+    _platformController = TextEditingController(text: promo?.platform ?? 'PC');
     _status = promo?.statusPromo ?? ApiConfig.statusOptions.first;
     _batas = promo?.batasPromo ?? DateTime.now().add(Duration(days: 30));
   }
@@ -61,6 +61,7 @@ class _PromoFormPageState extends State<PromoFormPage> {
     _gambar.dispose();
     _genre.dispose();
     _deskripsi.dispose();
+    _platformController.dispose();
     super.dispose();
   }
 
@@ -123,7 +124,7 @@ class _PromoFormPageState extends State<PromoFormPage> {
     final promo = PromoGame(
       idPromo: widget.promo?.idPromo ?? 0,
       namaGame: _nama.text.trim(),
-      platform: _platform,
+      platform: _platformController.text.trim(),
       hargaAwal: awal,
       hargaDiskon: diskon,
       gambarGame: _gambar.text.trim(),
@@ -131,6 +132,7 @@ class _PromoFormPageState extends State<PromoFormPage> {
       statusPromo: _status,
       genre: _genre.text.trim(),
       deskripsi: _deskripsi.text.trim(),
+      toko: widget.promo?.toko ?? '',
     );
 
     final provider = context.read<PromoGameProvider>();
@@ -180,17 +182,21 @@ class _PromoFormPageState extends State<PromoFormPage> {
                       : null,
                 ),
                 const SizedBox(height: 14),
-                DropdownButtonFormField<String>(
-                  initialValue: _platform,
-                  decoration: _decor('Platform'),
-                  dropdownColor: context.palette.surface,
-                  items: [
-                    for (final item in ApiConfig.platformOptions)
-                      DropdownMenuItem(value: item, child: Text(item)),
-                  ],
-                  onChanged: (value) {
-                    if (value != null) setState(() => _platform = value);
-                  },
+                TextFormField(
+                  controller: _platformController,
+                  decoration: _decor(
+                    'Platform',
+                    hint: 'Contoh: Steam, Epic Games, PlayStation',
+                  ).copyWith(
+                    helperText: 'Boleh lebih dari satu, pisahkan dengan koma',
+                    helperStyle: TextStyle(
+                      color: context.palette.textSubtle,
+                      fontSize: 10,
+                    ),
+                  ),
+                  validator: (value) => (value == null || value.trim().isEmpty)
+                      ? 'Platform wajib diisi'
+                      : null,
                 ),
                 const SizedBox(height: 14),
                 Row(

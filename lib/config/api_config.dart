@@ -9,7 +9,7 @@ class ApiConfig {
   static const String syncCheapShark = '$baseUrl/sync_cheapshark.php';
 
   /// Jumlah deal CheapShark yang diambil setiap kali sinkron.
-  static const int cheapSharkJumlah = 12;
+  static const int cheapSharkJumlah = 100;
 
   static const List<String> platformOptions = [
     'Steam',
