@@ -139,16 +139,15 @@ class _PromoFormPageState extends State<PromoFormPage> {
 
     if (!mounted) return;
     setState(() => _saving = false);
+    final pesan = berhasil
+        ? (_modeEdit
+            ? 'Promo berhasil diperbarui'
+            : 'Promo berhasil ditambahkan')
+        : (provider.error?.trim().isNotEmpty ?? false
+            ? provider.error!
+            : 'Gagal menyimpan promo. Cek koneksi ke API.');
     scaffoldMessengerKey.currentState?.showSnackBar(
-      SnackBar(
-        content: Text(
-          berhasil
-              ? (_modeEdit
-                  ? 'Promo berhasil diperbarui'
-                  : 'Promo berhasil ditambahkan')
-              : 'Gagal menyimpan promo. Cek koneksi ke API.',
-        ),
-      ),
+      SnackBar(content: Text(pesan)),
     );
     if (berhasil) Navigator.pop(context);
   }
