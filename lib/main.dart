@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
-
 import 'config/app_keys.dart';
 import 'config/app_theme.dart';
 import 'pages/splash_page.dart';

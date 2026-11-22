@@ -38,6 +38,8 @@ class SyncResult {
     final bagian = <String>[
       if (ditambah > 0) '$ditambah ditambah',
       if (diperbarui > 0) '$diperbarui diperbarui',
+      if (dilewati > 0) '$dilewati sudah ada',
+      if (dihapus > 0) '$dihapus kedaluwarsa dihapus',
     ];
     if (bagian.isEmpty) return 'Belum ada perubahan data';
     return bagian.join(', ');
